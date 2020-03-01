@@ -85,6 +85,36 @@ router.get('/_api/search', async (ctx) => {
     });
 });
 
+router.get('/_api/get', async (ctx, next) => {
+    let paths = (ctx.query.paths || '').split(',');
+    let resources = [];
+
+    let collection = new Resources.Collection(ctx.state.contentPath, ctx.state.apiToken);
+    await collection.loadPolicies();
+
+    for (let i=0; i<paths.length; i++) {
+        let path = paths[i];
+
+        // trim leading and trailing forward slashes, defaulting to 'home' if it's empty
+        let resPath = path.replace(/^\/|\/$/g, '') || 'home';
+
+        let resource = await resourceCache.get(resPath, async () => {
+            let res = await collection.get(resPath);
+            return res ? res : undefined;
+        });
+
+        if (resource) {
+            resources.push({
+                ...resource,
+                body: resource.parsedBody(),
+            });
+        }
+    }
+
+    ctx.body = {
+        resources,
+    };
+});
 
 router.get('/*', async (ctx, next) => {
     // trim leading and trailing forward slashes, defaulting to 'home' if it's empty

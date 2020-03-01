@@ -24,6 +24,7 @@ Dotfiles (files and folders that start with a period `.`) are ignored and never 
 
 - `http://localhost:3000/home` will return the resource `sitedata/home.md`. 
 - `http://localhost:3000/books/harry-potter` will return the resource `sitedata/books/harry-potter.md`.
+- `http://localhost:3000/_api/get?paths=books/harry-potter,books/war-of-the-worlds` will return both the resources `sitedata/books/harry-potter.md` and `sitedata/books/war-of-the-worlds.md`.
 
 #### Searching / listing resources
 You can search resources via `http://localhost:3000/_api/search`.
