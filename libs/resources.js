@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const frontmatter = require('front-matter');
+const MarkdownIt = require('markdown-it')
 const yaml = require('js-yaml');
 
 class ResourceCollection {
@@ -223,6 +224,20 @@ class Resource {
     parsedBody() {
         if (this.type === 'structure') {
             return this.structureToJson();
+        }
+
+        if (this.format === 'markdown') {
+            try {
+                let md = new MarkdownIt({
+                    html: true,
+                    linkify: true,
+                    typographer: true,
+                });
+                return md.render(this.body);
+            } catch (err) {
+                console.error('Error rendering markdown resource');
+                return null;
+            }
         }
 
         return this.body;
