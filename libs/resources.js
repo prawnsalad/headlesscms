@@ -36,7 +36,7 @@ class ResourceCollection {
         try {
             policies = yaml.safeLoad(rawPolicyFile);
         } catch (err) {
-            console.error('Error reading policy file', err.stack);
+            console.error('Error parsing policy file', err.stack);
             return;
         }
 
@@ -109,6 +109,7 @@ class ResourceCollection {
 
         if (this.policy.scope === 'published') {
             if (!resource.published || resource.published.constructor !== Date) {
+                console.log('Resource contains invalid published date:', resource.path);
                 return false;
             }
 
