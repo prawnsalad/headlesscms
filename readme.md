@@ -1,4 +1,4 @@
-# NodeCMS
+# HeadlessCMS
 ### A lightweight, flat file, headless CMS
 
 ***In development***

@@ -1,5 +1,5 @@
 {
-  "name": "nodecms",
+  "name": "headlesscms",
   "version": "1.0.0",
   "description": "A headless, flat file CMS",
   "main": "index.js",
