@@ -50,7 +50,7 @@ router.get('/_api/search', async (ctx) => {
     let results = await searchCache.get(ctx.url, async () => {
         isFresh = true;
 
-        let resources = new Resources.Collection(config.get('content.path'), ctx.state.apiToken);
+        let resources = new Resources.Collection(ctx.state.contentPath, ctx.state.apiToken);
         await resources.loadPolicies();
         return resources.search(ctx.query.path || '/', {
             tags,
@@ -88,11 +88,11 @@ router.get('/_api/search', async (ctx) => {
 
 router.get('/*', async (ctx, next) => {
     // trim leading and trailing forward slashes, defaulting to 'home' if it's empty
-    let resPath = ctx.path.replace(/^\/|\/$/g, '') || 'home';
+    let resPath = ctx.state.stripPath().replace(/^\/|\/$/g, '') || 'home';
     let isFresh = false;
     let resource = await resourceCache.get(resPath, async () => {
         isFresh = true;
-        let resources = new Resources.Collection(config.get('content.path'), ctx.state.apiToken);
+        let resources = new Resources.Collection(ctx.state.contentPath, ctx.state.apiToken);
         await resources.loadPolicies();
 
         let res = await resources.get(resPath);

@@ -4,8 +4,8 @@ const Config = require('./libs/config');
 const config = global.config = new Config();
 const app = new Koa();
 
-let middlewares = require('./middleware/apitoken');
-app.use(middlewares);
+app.use(require('./middleware/apitoken'));
+app.use(require('./middleware/contentpath'));
 
 let routes = require('./routes/main');
 app.use(routes.routes());

@@ -191,7 +191,7 @@ class ResourceCollection {
 class Resource {
     constructor() {
         this.path = '';
-        // page(html), content(markdown)
+        // page(html), content(markdown), structure(json/yaml)
         this.type = 'page';
         this.format = 'html';
         this.created = new Date();
