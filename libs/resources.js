@@ -122,6 +122,11 @@ class ResourceCollection {
     }
 
     async search(searchPath, searchOpts={}) {
+        // Don't go crazy searching hugely deep folder structures by default
+        if (!searchOpts.pathDepth) {
+            searchOpts.pathDepth = 5;
+        }
+
         let depth = 0;
         let walk = async (dirPath, callback) => {
             if (searchOpts.pathDepth && depth > searchOpts.pathDepth) {
@@ -139,6 +144,11 @@ class ResourceCollection {
 
             for (let i=0; i<dir.length; i++) {
                 let dirItem = dir[i];
+                // Ignore dotfiles
+                if (dirItem[0] === '.') {
+                    continue;
+                }
+
                 let itemPath = path.join(dirPath, dirItem);
 
                 let stat = await fs.stat(this.path(itemPath));

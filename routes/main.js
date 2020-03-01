@@ -51,7 +51,7 @@ router.get('/_api/search', async (ctx) => {
         isFresh = true;
 
         let resources = new Resources.Collection(config.get('content.path'), ctx.state.apiToken);
-        await resource.loadPolicies();
+        await resources.loadPolicies();
         return resources.search(ctx.query.path || '/', {
             tags,
             pathDepth,
@@ -78,7 +78,7 @@ router.get('/_api/search', async (ctx) => {
     });
 
     ctx.body = {
-        results,
+        resources: results,
     };
     ctx.response.set({
         [cacheResponseHeaderName]: !isFresh,
