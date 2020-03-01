@@ -1,0 +1,7 @@
+server:
+    port: 3000
+    trustProxy: false
+content:
+    path: ./sitedata/
+    defaultExtension: md
+    cache: false
