@@ -183,6 +183,17 @@ class ResourceCollection {
                 }
             }
 
+            // If searching for specific types
+            if (searchOpts.types && Object.keys(searchOpts.types).length > 0) {
+                let keys = Object.keys(searchOpts.types);
+                for (let i=0; i<keys.length; i++) {
+                    let type = keys[i];
+                    if (resource.type !== type) {
+                        return;
+                    }
+                }
+            }
+
             found.push(resource);
         });
 
@@ -193,8 +204,8 @@ class ResourceCollection {
 class Resource {
     constructor() {
         this.path = '';
-        // page(html), content(markdown), structure(json/yaml)
-        this.type = 'page';
+        // content(markdown/html), structure(json/yaml)
+        this.type = 'content';
         this.format = 'html';
         this.created = new Date();
         this.published = null;
@@ -210,8 +221,8 @@ class Resource {
         let attribs = fm.attributes;
         let resource = new Resource();
         resource.path = path || '';
-        resource.type = attribs.type || 'html';
-        resource.format = attribs.format || 'page';
+        resource.type = attribs.type || 'content';
+        resource.format = attribs.format || 'html';
         resource.created = attribs.created;
         resource.published = attribs.published;
         resource.tags = attribs.tags || Object.create(null);

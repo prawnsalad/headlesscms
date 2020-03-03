@@ -13,6 +13,15 @@ const searchCache = new Cache({
     maxAge: 1000 * 60 * 1 // 1 min
 });
 
+// Convert 'item1,item2,item3' into {item1:true,item2:true,item3:true}
+function strListToObject(list, splitOn=',') {
+    return list.split(splitOn)
+    .reduce((cur, val) => {
+        if (val) cur[val] = true;
+        return cur;
+    }, {});
+}
+
 /**
  * Query string params:
  * - tags=tag1,tag2 search for resources with all these tags
@@ -23,19 +32,14 @@ const searchCache = new Cache({
 router.get('/_api/search', async (ctx) => {
     let isFresh = false;
 
-    // If we're searching by tags, create an object where it's keys are the tag names
-    let tags = (ctx.query.tags || '').split(',')
-        .reduce((cur, val) => {
-            if (val) cur[val] = true;
-            return cur;
-        }, {});
+    // If we're searching by tags
+    let tags = strListToObject(ctx.query.tag || ctx.query.tags || '')
 
-    // Include any extra fields, create an object where it's keys are the tag names
-    let include = (ctx.query.include || '').split(',')
-        .reduce((cur, val) => {
-            if (val) cur[val] = true;
-            return cur;
-        }, {});
+    // Include any extra fields
+    let include = strListToObject(ctx.query.include || '');
+
+    // Search for a specific type
+    let types = strListToObject(ctx.query.type || ctx.query.types || '');
 
     let pathDepth = parseInt(ctx.query.pathdepth, 10);
     if (isNaN(pathDepth)) {
@@ -51,6 +55,7 @@ router.get('/_api/search', async (ctx) => {
         return collection.search(ctx.query.path || '/', {
             tags,
             pathDepth,
+            types,
         });
     });
 
