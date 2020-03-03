@@ -25,7 +25,7 @@ function strListToObject(list, splitOn=',') {
 /**
  * Query string params:
  * - tags=tag1,tag2 search for resources with all these tags
- * - include=tags,body include these fields in the search results
+ * - include=tags,body,inject include these fields in the search results
  * - pathdepth=4 search this many folders deep. 0 = unlimited
  * - path=/folder/ the folder to search in. default is the root folder
  */
@@ -74,6 +74,10 @@ router.get('/_api/search', async (ctx) => {
         }
         if (include.body) {
             r.body = res.parsedBody();
+        }
+        if (include.inject) {
+            r.inject_header = res.inject_header || '';
+            r.inject_footer = res.inject_footer || '';
         }
         return r;
     });

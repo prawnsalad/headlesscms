@@ -87,7 +87,14 @@ class ResourceCollection {
             return null;
         }
 
-        let fm = frontmatter(data);
+        let fm = null;
+        try {
+            fm = frontmatter(data);
+        } catch (err) {
+            console.error('Error parsing resource:', err.message);
+            return null;
+        }
+
         let resource = Resource.fromFrontmatter(fm);
         resource.path = fullResPath;
 
@@ -212,6 +219,8 @@ class Resource {
         this.tags = Object.create(null);
         this.title = '';
         this.snippet = '';
+        this.inject_header = '';
+        this.inject_footer = '';
         this.body = '';
         // Size of the content file
         this.size = 0;
@@ -228,6 +237,8 @@ class Resource {
         resource.tags = attribs.tags || Object.create(null);
         resource.title = attribs.title || '';
         resource.snippet = attribs.snippet || '';
+        resource.inject_header = attribs.inject_header || '';
+        resource.inject_footer = attribs.inject_footer || '';
         resource.body = fm.body || '';
         resource.size = (fm.frontmatter || '').length + (fm.body || '').length;
         return resource;
