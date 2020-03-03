@@ -35,10 +35,12 @@ Search options are added to the query string of the search URL, eg. `http://loca
 - **path**
   The path to search in. By default it will search everything in your sitedata folder.
 - **tags**
-  To search for all resources with the `blog` tag, use `tags=blog`. Multiple tags maye be given via `tags=blog,development`
+  To search for all resources with the `blog` tag, use `tags=blog`. Multiple tags may be given via `tags=blog,development`.
 - **include**
   By default the search results will only include basic information about the resource. Use the `include` option to include more. Eg. `include=tags,body`. Available options:
   - tags
   - body
+- **type**
+  To search only content resources, use `type=content`. Multiple types may be given via `type=content,structure`.
 - **pathdepth**
   How deep to search folders. 0 = unlimited. Defaults to 5.
