@@ -210,14 +210,14 @@ class Resource {
         let attribs = fm.attributes;
         let resource = new Resource();
         resource.path = path || '';
-        resource.type = attribs.type;
-        resource.format = attribs.format;
+        resource.type = attribs.type || 'html';
+        resource.format = attribs.format || 'page';
         resource.created = attribs.created;
         resource.published = attribs.published;
-        resource.tags = attribs.tags;
-        resource.title = attribs.title;
-        resource.snippet = attribs.snippet;
-        resource.body = fm.body;
+        resource.tags = attribs.tags || Object.create(null);
+        resource.title = attribs.title || '';
+        resource.snippet = attribs.snippet || '';
+        resource.body = fm.body || '';
         resource.size = (fm.frontmatter || '').length + (fm.body || '').length;
         return resource;
     }

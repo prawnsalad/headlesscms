@@ -5,6 +5,7 @@
 
 - Simple HTTP API for reading content
 - Flat files - no database. Commit it all to git for content revisions
+- Smart content caching for fast, high traffic websites
 - frontmatter format
 - Access policies
   - Read all content
