@@ -1,7 +1,15 @@
 server:
     port: 3000
     trustProxy: false
+origins:
+    whitelist:
+        # (CORS) A list of http://hostname entries that are allowed to request content. Being empty
+        # will allow any webpage to request content.
 content:
+    # path replacements:
+    # %h = the website hostname
+    # %t = the API token
+    # %p = the first part in the path (eg. http://cms.com/<first>/content/path)
     path: ./sitedata/
     defaultExtension: md
     cache: false

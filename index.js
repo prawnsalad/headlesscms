@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const koaCors = require('@koa/cors');
 const Config = require('./libs/config');
 
 async function main() {
@@ -11,6 +12,18 @@ async function main() {
         app.proxy = true;
     }
 
+    app.use(koaCors({
+        origin: ctx => {
+            let allowedOrigins = config.get('origins.whitelist', []);
+            if (!allowedOrigins || allowedOrigins.length === 0) {
+                // Allow any Origin to use this server
+                return ctx.get('Origin');
+            }
+
+            let reqOrigin = (ctx.get('Origin') || '').toLowerCase();
+            return allowedOrigins.find(origin => origin.toLowerCase() === reqOrigin);
+        },
+    }));
     app.use(require('./middleware/apitoken'));
     app.use(require('./middleware/contentpath'));
 

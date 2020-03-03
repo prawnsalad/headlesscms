@@ -9,6 +9,7 @@
   },
   "license": "AGPL-3.0",
   "dependencies": {
+    "@koa/cors": "^3.0.0",
     "@koa/router": "^8.0.8",
     "front-matter": "^3.1.0",
     "koa": "^2.11.0",

@@ -9,6 +9,9 @@ module.exports = class Config {
                 port: 3000,
                 trustProxy: false,
             },
+            origins: {
+                whitelist: [],
+            },
             content: {
                 // %h = the website hostname
                 // %t = the API token
