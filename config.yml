@@ -13,3 +13,4 @@ content:
     path: ./sitedata/
     defaultExtension: md
     cache: false
+    allowGitUpdates: false
