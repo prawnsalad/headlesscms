@@ -14,6 +14,7 @@
 - Markdown, HTML, plain text, or structured data (yaml or json)
 - Zero-config - works out of the box with sane defaults
 - Multiple website support (identified by either API token, hostname, or URL path)
+- Auto update content from a git repository with webhooks
 
 ## Usage
 
