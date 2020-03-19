@@ -11,7 +11,7 @@
   - Read all content
   - Read only published content
   - No access
-- Markdown, HTML, or structured data (yaml or json)
+- Markdown, HTML, plain text, or structured data (yaml or json)
 - Zero-config - works out of the box with sane defaults
 - Multiple website support (identified by either API token, hostname, or URL path)
 

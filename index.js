@@ -12,6 +12,8 @@ async function main() {
         app.proxy = true;
     }
 
+    app.use(require('./middleware/requestid'));
+    app.use(require('./middleware/logger'));
     app.use(koaCors({
         origin: ctx => {
             let allowedOrigins = config.get('origins.whitelist', []);
@@ -32,6 +34,7 @@ async function main() {
     app.use(routes.allowedMethods());
 
     app.listen(config.get('server.port', 3000));
+    console.log('Listening on http://0.0.0.0:3000/');
 }
 
 main();

@@ -19,24 +19,37 @@ class ResourceCollection {
         return path.join(this.sitePath, resource);
     }
 
-    async loadPolicies() {
-        let rawPolicyFile;
+    async loadConfigFile(filePath) {
+        let fileData;
         try {
-            rawPolicyFile = await fs.readFile(this.path('.config/policies.yml'), {encoding: 'utf8'});
+            fileData = await fs.readFile(this.path('.config/' + filePath), {encoding: 'utf8'});
         } catch (err) {
-            if (err.code !== 'ENOENT') {
+            return err;
+        }
+
+        let parsed;
+        try {
+            parsed = yaml.safeLoad(fileData);
+        } catch (err) {
+            err.code = 'ERR_PARSE';
+            return err;
+        }
+
+        return parsed;
+
+    }
+    async loadPolicies() {
+        let policies;
+        try {
+            policies = await this.loadConfigFile('policies.yml');
+        } catch (err) {
+            if (err.code === 'ERR_PARSE') {
+                console.error('Error parsing policy file', err.stack);
+            } else if (err.code !== 'ENOENT') {
                 // An error other than not existing, log it
                 console.error('Error reading resource', err.stack);
             }
 
-            return;
-        }
-
-        let policies;
-        try {
-            policies = yaml.safeLoad(rawPolicyFile);
-        } catch (err) {
-            console.error('Error parsing policy file', err.stack);
             return;
         }
 
@@ -247,6 +260,10 @@ class Resource {
     parsedBody() {
         if (this.type === 'structure') {
             return this.structureToJson();
+        }
+
+        if (this.format === 'plain') {
+            return this.body;
         }
 
         if (this.format === 'markdown') {

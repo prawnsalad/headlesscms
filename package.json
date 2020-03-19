@@ -12,9 +12,11 @@
     "@koa/cors": "^3.0.0",
     "@koa/router": "^8.0.8",
     "front-matter": "^3.1.0",
+    "fs-extra": "^8.1.0",
     "koa": "^2.11.0",
     "lodash": "^4.17.15",
     "lru-cache": "^5.1.1",
-    "markdown-it": "^10.0.0"
+    "markdown-it": "^10.0.0",
+    "nodegit": "^0.26.5"
   }
 }
